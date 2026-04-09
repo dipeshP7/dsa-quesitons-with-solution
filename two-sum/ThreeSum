@@ -1,0 +1,35 @@
+public class ThreeSum {
+  //inputs nums = [-1, 0, 1, 2, -1, -4]
+  // ouput  [[-1, -1, 2], [-1, 0, 1]]
+  // a + b + c = 0
+  //nstead of finding 2 numbers, we fix one number and find the other two using Two Pointer.
+  public static void main(String[] args){
+    int[] input_arr = {-1, 0, 1, 2, -1, -4};
+    System.out.println(ThreeSum.threeSumSolution(input_arr));
+  }
+  public static List<List<Integer>> threeSumSolution(int[] input_arr){
+    List<List<Integer>> sumList = new ArrayList<>();
+    Arrays.sort(input_arr);
+    //sort list [-4, -1, -1, 0, 1, 2]
+
+    for(int i = 0; i < input_arr.length-1; i++){
+      if(i > 0 && (input_arr[i] == input_arr[i-1])) continue;
+      int left = i+1;
+      int right = input_arr.length-1;
+      while(left < right){
+        int sum = input_arr[i] + input_arr[left]+input_arr[right];
+        System.out.println(input_arr[i] + " : " + input_arr[left]+ " : "+input_arr[right]);
+        if(sum == 0 ){
+          sumList.add(Arrays.asList(input_arr[i], input_arr[left], input_arr[right]));
+          left++;
+          right--;
+        }else if(sum < 0){
+           left++;
+        }else{
+          right--;
+        }
+      }
+    }
+    return sumList;
+  }
+}
