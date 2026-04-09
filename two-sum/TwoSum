@@ -1,0 +1,91 @@
+public class TwoSum {
+  public static void main(String[] args){
+    int[] arrTwoSum= {11,2,7,15};
+    int targetNum = 18;
+    //TwoSum.twoSum_brute_force(arrTwoSum, targetNum);
+    //TwoSum.twoSum_hashMap(arrTwoSum, targetNum);
+    TwoSum.twoSum_hashSet(arrTwoSum, targetNum);
+    //TwoSum.twoSum_sorting_and_two_pointer_array(arrTwoSum, targetNum);
+  }
+  //approach-1: brute force
+  public static void twoSum_brute_force(int[] arr_twoSum, int target){
+     for(int i = 0; i < arr_twoSum.length; i++){
+       for(int j=1; j< arr_twoSum.length; j++){
+         int sum = arr_twoSum[i]+arr_twoSum[j];
+         if(sum == target){
+           System.out.println("Sum Match: index are ["+i+","+j+"] :value are ["+arr_twoSum[i]+","+arr_twoSum[j]+"]");
+           return;
+         }
+       }
+     }
+  }
+
+  public static void twoSum_hashMap(int[] arr_twoSum, int target) {
+    Arrays.sort(arr_twoSum);
+    Map<Integer, Integer> sumMap = new HashMap<>();
+    for(int i = 0; i < arr_twoSum.length; i++){
+      sumMap.put(arr_twoSum[i], i);
+    }
+    for(int i=0; i< arr_twoSum.length; i++){
+      int complementValue = target-arr_twoSum[i];
+      if(sumMap.containsKey(complementValue)){
+        System.out.println("Sum Match "+ arr_twoSum[i]+ " , "+ complementValue );
+        System.out.println("index values "+ sumMap.get(arr_twoSum[i]) + ", "+ sumMap.get(complementValue));
+        return;
+      }
+    }
+  }
+
+  public static void twoSum_hashSet(int[] arr_twoSum, int target){
+    Set<Integer> arr_hashset = new HashSet<>();
+    for(int i =0; i< arr_twoSum.length; i++){
+      arr_hashset.add(arr_twoSum[i]);
+    }
+
+    Arrays.stream(arr_twoSum).forEach(num -> {
+      if(arr_hashset.contains((target -num))){
+        System.out.println("Sum Match " + num + " , " + (target - num));
+      }
+    });
+
+    Arrays.stream(arr_twoSum)
+        .filter(num -> arr_hashset.contains(target- num))
+        .findFirst()
+        .ifPresent(num -> System.out.println("Sum Match " + num + " , " + (target - num)));
+
+    for(int j=0; j < arr_twoSum.length; j++){
+      int complementValue = target - arr_twoSum[j];
+      if(arr_hashset.contains(complementValue)){
+        System.out.println("Sum Match "+ arr_twoSum[j]+ " , "+ complementValue );
+        return;
+      }
+    }
+
+
+  }
+
+  public static void twoSum_sorting_and_two_pointer_array(int[] arr_twoSum, int target){
+    Arrays.sort(arr_twoSum);
+    int left_pointer = 0;
+    int right_pointer = arr_twoSum.length-1;
+    System.out.println("pointer : "+ left_pointer+ " "+ right_pointer);
+    //18 = 2+15 = 17  : 18 > 17 - left++;
+    //18 < 17 - right++
+    int length = arr_twoSum.length -1;
+    for(int i=0; i<length; i++){
+      System.out.println("lenght : "+ length);
+      int sum = arr_twoSum[left_pointer]+ arr_twoSum[right_pointer];
+      System.out.print(arr_twoSum[left_pointer]);
+      System.out.println(" "+arr_twoSum[right_pointer]);
+      System.out.println(sum);
+      if(sum == target){
+        System.out.println("Sum Match "+ arr_twoSum[left_pointer]+ " , "+ arr_twoSum[right_pointer] );
+      }
+      if(target > sum){
+         left_pointer=left_pointer+1;
+      }else if(target < sum){
+        right_pointer=right_pointer-1;
+      }
+    }
+  }
+}
