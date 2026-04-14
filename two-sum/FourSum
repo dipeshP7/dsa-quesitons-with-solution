@@ -1,0 +1,101 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class FourSum {
+//  Input:
+//  nums = [1, 0, -1, 0, -2, 2]
+//  target = 0
+//
+//  Output:
+//      [
+//      [-2, -1, 1, 2],
+//      [-2,  0, 0, 2],
+//      [-1,  0, 0, 1]
+//      ]
+
+  public static void main(String[] args){
+    int[] arr = {1, 0, -1, 0, -2, 2};
+    int target = 0;
+    System.out.println(FourSum.fourSumSolution(arr, target));
+  }
+
+  public static List<List<Integer>> fourSumSolution(int[] arr, int target){
+    List<List<Integer>> sumList = new ArrayList<>();
+    Arrays.sort(arr);
+   // [-2,-1,0,0,1,2]
+    // [-2,-1,0,0,1,2]
+    for(int i=0; i < arr.length -1; i++){
+      if(i > 0 && arr[i] == arr[i-1]) continue;
+
+      for(int j=i+1; j < arr.length-2; j++){
+        if(j > i +1 && arr[j] == arr[j-1]) continue;
+        int left = j+1;
+        int right = arr.length -1;
+
+        while(left < right){
+          System.out.println(arr[i]+":"+arr[j]+":"+arr[left]+":"+arr[right]);
+          int sum = arr[i]+arr[j]+arr[left]+arr[right];
+          if(sum == target){
+            sumList.add(Arrays.asList(arr[i], arr[j], arr[left], arr[right]));
+            left++;
+            right--;
+          }
+          else if(sum < target){
+            left++;
+          } else {
+            right--;
+          }
+        }
+      }
+    }
+    return sumList;
+  }
+
+    public static List<List<Integer>> fourSumSolution1(int[] arr, int target){
+      List<List<Integer>> result = new ArrayList<>();
+      Arrays.sort(arr);
+
+      int n = arr.length;
+
+      for(int i = 0; i < n - 3; i++){
+
+        // Skip duplicate for i
+        if(i > 0 && arr[i] == arr[i - 1]) continue;
+
+        for(int j = i + 1; j < n - 2; j++){
+
+          // Skip duplicate for j
+          if(j > i + 1 && arr[j] == arr[j - 1]) continue;
+
+
+          int left = j + 1;
+          int right = n - 1;
+
+
+          while(left < right){
+            System.out.println(arr[i]+":"+arr[j]+":"+arr[left]+":"+arr[right]);
+            long sum = (long)arr[i] + arr[j] + arr[left] + arr[right];
+
+            if(sum == target){
+              result.add(Arrays.asList(arr[i], arr[j], arr[left], arr[right]));
+
+              left++;
+              right--;
+
+              // Skip duplicates
+              while(left < right && arr[left] == arr[left - 1]) left++;
+              while(left < right && arr[right] == arr[right + 1]) right--;
+
+            } else if(sum < target){
+              left++;
+            } else {
+              right--;
+            }
+          }
+        }
+      }
+
+      return result;
+    }
+  }
