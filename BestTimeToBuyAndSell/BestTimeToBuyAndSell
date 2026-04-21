@@ -1,0 +1,98 @@
+import java.util.List;
+import java.util.TreeMap;
+
+
+public class BestTimeToBuyAndSell {
+
+//  You are given stock prices over days:
+//  Day:    1   2   3   4   5
+//  Price:  7   1   5   3   6
+//  Goal:
+//  Buy once
+//  Sell once
+// Maximize profit
+//  Constraint: You must buy before you sell
+//  output :
+//  Best Time to Buy : Day 2
+//  Best Time to Sell : Day 5
+
+  public static void main(String[] args){
+    //assume index is days with 0 starts so [0,4]
+    int[] daysList= {7,1,5,3,6};
+    //BestTimeToBuyAndSell.getBestTimeToBuyAndSellStocks(daysList);
+    //BestTimeToBuyAndSell.getBestTimeToBuyAndSellStocks1(daysList);
+    BestTimeToBuyAndSell.getBestBuyTimeAndSellTime3(daysList);
+
+  }
+
+  // beacuse of treemap its not a proper brute force
+  public static void getBestTimeToBuyAndSellStocks(int[] daysArray){
+    int maxProfit = 0;
+    TreeMap<Integer, List<Integer>> resultVal = new TreeMap<>();
+    for(int i= 0; i < daysArray.length; i++){
+     for(int j=i+1; j < daysArray.length; j++){
+       if((daysArray[j] - daysArray[i]) < 0){
+         //skip as next day value is greater than old
+       }else {
+         if(daysArray[j] - daysArray[i] > maxProfit){
+           maxProfit = daysArray[j] - daysArray[i];
+           resultVal.put(maxProfit, List.of(i,j));
+           //System.out.println("Best buy: Day " +i+ " Best Sell : Day "+j);
+         }
+       }
+
+     }
+    }
+    System.out.println("Max Profit : "+ maxProfit);
+    List<Integer> res  = resultVal.lastEntry().getValue();
+    System.out.println("Best time to Buy Day : "+ res.get(0) +" and Sell Day : "+ res.get(1));
+  }
+
+  public static void getBestTimeToBuyAndSellStocks1(int[] prices) {
+    int maxProfit = 0;
+    int buyDay = -1;
+    int sellDay = -1;
+    for (int i = 0; i < prices.length; i++) {
+      for (int j = i + 1; j < prices.length; j++) {
+        int profit = prices[j] - prices[i];
+        if (profit > maxProfit) {
+          maxProfit = profit;
+          buyDay = i;
+          sellDay = j;
+        }
+      }
+    }
+    System.out.println("Max Profit: " + maxProfit);
+    if (buyDay != -1) {
+      System.out.println("Buy on Day: " + (buyDay + 1));
+      System.out.println("Sell on Day: " + (sellDay + 1));
+    } else {
+      System.out.println("No profitable transaction possible");
+    }
+  }
+
+  public static void getBestBuyTimeAndSellTime3(int[] arr){
+    int minPrice = Integer.MAX_VALUE;
+    int maxProfit = 0;
+    int buyDay = -1;
+    int sellDay = -1;
+    int tempBuyDay = -1;
+    for(int i =0; i < arr.length; i++){
+      if(arr[i] < minPrice){
+        minPrice = arr[i];
+        tempBuyDay = i;
+      }
+      int profit = arr[i] - minPrice;
+      if(profit > maxProfit){
+        maxProfit = profit;
+        buyDay = tempBuyDay;
+        sellDay = i;
+      }
+    }
+    System.out.println("Max Profit : "+ maxProfit);
+    if(buyDay != -1){
+      System.out.println("Buy on Day "+ (buyDay+1));
+      System.out.println("Sell on Day "+ (sellDay+1));
+    }
+  }
+}
