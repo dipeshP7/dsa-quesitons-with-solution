@@ -1,0 +1,53 @@
+class ListNode{
+    int val;
+    ListNode next;
+
+    ListNode(int val){
+        this.val=val;
+    }
+
+    ListNode(int val, ListNode next){
+        this.val=val;
+        this.next=next;
+    }
+}
+
+public class LinkedListLifeCycle {
+
+    public static void main(String[] args){
+        //input
+//        1 → 2 → 3 → 4
+//            ↑      |
+//            |______|
+        //output = true
+       ListNode node4 = new ListNode(4, null);
+       ListNode node3 = new ListNode(3, node4);
+       ListNode node2 = new ListNode(2, node3);
+       node4.next=node2;
+       ListNode head = new ListNode(1, node2);
+
+       System.out.println(head.next.val);
+       System.out.println(head.next.next.val);
+       System.out.println(head.next.next.next.val);
+       boolean output= LinkedListLifeCycle.basic_solution(head);
+       System.out.println("Is cycle exits : "+output);
+
+
+    }
+
+    public static boolean basic_solution(ListNode head){
+        Set<ListNode> uniqueNodes = new HashSet<>();
+        ListNode current=head;
+        while(current !=null){
+            if(uniqueNodes.contains(current)){
+                return true;
+            }else{
+                uniqueNodes.add(current);
+            }
+            current=current.next;
+        }
+        return false;
+    }
+
+
+}
