@@ -1,0 +1,133 @@
+class ListNode{
+  int val;
+  ListNode next;
+
+    ListNode() {
+    }
+
+  ListNode(int value){
+      this.val= value;
+  }
+  ListNode(int value, ListNode next){
+      this.val= value;
+      this.next=next;
+  }
+}
+
+public class ReverseLinkedList {
+
+    public static void main(String[] args){
+        // linked list
+        //input 10 → 20 → 30 → 40 → null
+        //output 40 → 30 → 20 → 10 → null
+
+        //this hard coded so it will not support dyanmic
+        int[] numbers = {40,30,20,10};
+        ListNode node4=new ListNode(40, null);
+        ListNode node3= new ListNode(30, node4);
+        ListNode node2= new ListNode(20, node3);
+        ListNode head1= new ListNode(10, node2);
+
+        //other way
+        //this can be supported dynamic
+        // so will use below
+        ListNode head = null;
+        for(int i=0; i < numbers.length; i++){
+            head =new ListNode(numbers[i], head);
+        }
+       ReverseLinkedList.reverseList(head);
+    }
+
+    public static ListNode reverseList(ListNode head) {
+        ListNode node = null;
+        //here head contain below
+        //head-> 10, nextNode -> 20, nextNode -> 30, nextNode-> 40, null
+        ListNode previous = null;
+        ListNode current = head;
+        while (current != null) {
+            System.out.println(current.val);
+            //shift 10 - 20
+//            save next node
+             // System.out.print(" : next "+ current.next);
+
+              ListNode next = current.next;
+              // next -> (20, node-> 30, node-> 40, null)
+
+//            reverse current.next
+              current.next=previous;
+              // current -> 10,next-(20-40)
+              //10,node -> null  (as in 1st time previous was null)
+              // here current next beacome null
+
+//            move previous forward
+              previous= current;
+              //now previous change null -> 10,null
+
+//            move current forwad
+              current = next;
+              //here current beacome (20, node-> 30, node-> 40, null)
+
+              // now 2 iteration
+              //previous -> 10, null
+              //next -> (20, node-> 30, node-> 40, null)
+              //current- > (20, node-> 30, node-> 40, null)
+
+              //next-> 30,ndoe-> 40, null
+              //current.next -> (20,node(30-40)) -> 20, previous(10,null)
+              //previous -> 20, (current.next)-> (10,null)
+              // current-> 30,ndoe-> 40, null
+
+              // now 3 iteration
+              //previous -> 20, -> (10,null)
+              //next -> 30,ndoe-> 40, null
+              //current- > 30,ndoe-> 40, null
+
+              //next-> 40,null
+              //current.next->previous
+              //30-> 30, (20,(10,null))
+              //previous -> current (30, (just set previous ))
+              //previous -> 30,(20,(10,null))
+              //current->next
+              // 30,(40,null)-> 40,null
+
+            // now 4 iteration
+            //next->40,null
+            //current-> 40,null
+            //previous-> 30,(20,(10,null))
+
+            //next-> null
+            //current.next=previous -> 40,(previous)-> 40, (30,(20,(10,null)))
+            //previous = current ->
+            // 40, (30,(20,(10,null)))  -> 40, (30,(20,(10,null)))
+            //current.next= next -> null
+
+            //now 5 iteration
+            //current == null
+            //loop ends
+        }
+
+        //explain
+        //step -1
+        //previous -> null
+        // current - (10,node), previous - null
+        // previous set to -> (10,node -> null)
+
+        System.out.println("---------------------------------");
+        ListNode p1 = previous;
+        while(p1 != null){
+            System.out.println(p1.val);
+            p1= p1.next;
+        }
+        return previous;
+    }
+
+    //logic
+    //swap by right to left
+    //check for size
+    //start swap right to left and case > head pos
+    // some pos count so after first index swap it should conider next node of first
+    // same patter loop until tail
+    public static void basic_approach(List<Integer> numList){
+
+    }
+}
