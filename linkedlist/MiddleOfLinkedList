@@ -1,0 +1,62 @@
+class ListNode{
+    int val;
+    ListNode next;
+
+    ListNode(int val){
+        this.val=val;
+    }
+}
+
+public class MiddleOfLinkedList {
+
+    public static  void main(String[] args){
+        // input 1 ->2-> 3-> 4-> 5
+        //output : 3
+        // input 1 ->2-> 3-> 4-> 5-> 6
+        //output : 4
+
+        ListNode head =new ListNode(1);
+        head.next=new ListNode(2);
+        head.next.next=new ListNode(3);
+        head.next.next.next=new ListNode(4);
+        head.next.next.next.next=new ListNode(5);
+
+        ListNode head2 =new ListNode(1);
+        head2.next=new ListNode(2);
+        head2.next.next=new ListNode(3);
+        head2.next.next.next=new ListNode(4);
+        head2.next.next.next.next=new ListNode(5);
+        head2.next.next.next.next.next=new ListNode(6);
+
+        ListNode outpput = MiddleOfLinkedList.basic_approach(head);
+        System.out.println("output : "+ outpput.val);
+
+        ListNode outpput2 = MiddleOfLinkedList.basic_approach(head2);
+        System.out.println("output : "+ outpput2.val);
+    }
+
+    //logic
+//    Count all nodes
+//    Length = n
+//    Middle = n / 2
+//    Start from head again
+//    Move Middle times
+//    Return current node
+    public static ListNode basic_approach(ListNode input){
+        ListNode temp=input;
+        int length=0;
+
+        while (temp !=null){
+            length++;
+            temp=temp.next;
+        }
+
+        temp=input;
+
+        for(int i =0; i < length /2; i++){
+            temp=temp.next;
+        }
+
+        return temp;
+    }
+}
