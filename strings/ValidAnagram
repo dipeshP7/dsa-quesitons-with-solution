@@ -1,0 +1,134 @@
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+public class ValidAnagram {
+    //first string chars should match with second string.
+    // here order does not matter.
+    // chars in first string should have same count in second string
+    public static void main(String[] args){
+        String input_arr1 = "listen", input_arr2="silent";
+        //ValidAnagram.solution_bruteForce_Anagram(input_arr1,input_arr2);
+        ValidAnagram.solution_extraSapce_Anagram(input_arr1,input_arr2);
+
+    }
+
+//    Logic
+//    Check if both strings have the same length.
+//    If not, return false.
+//    Convert both strings into character arrays.
+//    Sort both arrays.
+//    Compare the sorted arrays character by character.
+//    If all characters match, the strings are anagrams; otherwise, they are not.
+    public static String solution_bruteForce_Anagram(String s1, String s2){
+        if((s1 != null && s2 != null)
+           && s2.length() == s1.length()){
+            char[] s1_arr = s1.toCharArray();
+            char[] s2_arr = s2.toCharArray();
+            Arrays.sort(s1_arr);
+            Arrays.sort(s2_arr);
+
+            //here we can direct campare with below code instead of for loop
+            // Arrays.equals(s1_arr, s2_arr)
+            int lenght = 0;
+            for(int i = 0; i < s1_arr.length; i++){
+                if(s1_arr[i] != s2_arr[i]){
+                    System.out.println("String is not anagram");
+                    return "String is not anagram";
+                }else {
+                    lenght++;
+                }
+            }
+            if(lenght == s1_arr.length){
+                System.out.println("String is anagram");
+                return "String is anagram";
+            }
+        }else{
+            System.out.println("String is not anagram");
+            return "String is not anagram";
+        }
+        return "";
+    }
+
+    //extra space
+//    Logic
+//    Check if both strings have the same length.
+//    If not, return false.
+//    Create a frequency map.
+//    Traverse the first string:
+//    Increment the count for each character.
+//    Traverse the second string:
+//    Decrement the count for each character.
+//    After processing both strings:
+//    Every character count should be 0.
+//    If any count is not 0, they are not anagrams.
+    public static String solution_extraSapce_Anagram(String s1, String s2){
+        Map<Character, Integer> frequecny = new HashMap<>();
+        if((s1 != null && s2 != null)
+                && s2.length() == s1.length()){
+            char[] s1_arr = s1.toCharArray();
+            char[] s2_arr = s2.toCharArray();
+
+            for(int i=0; i< s1_arr.length; i++){
+                if(frequecny.containsKey(s1_arr[i])){
+                    frequecny.put(s1_arr[i], (frequecny.get(s1_arr[i]) + 1));
+                } else {
+                    frequecny.put(s1_arr[i], 1);
+                }
+            }
+
+
+            for(int i=0; i< s2_arr.length; i++){
+                if(frequecny.containsKey(s2_arr[i])){
+                    frequecny.put(s2_arr[i], (frequecny.get(s2_arr[i]) - 1));
+                }
+            }
+
+            for(Integer value : frequecny.values()){
+                if(value != 0){
+                    return "stirng is not anagram";
+                }
+            }
+        }
+        return "stirng is anagram";
+    }
+
+
+    //optimse version
+    //    Logic
+//    Check if both strings have the same length.
+//    If not, return false.
+//    Create a frequency map.
+//    Traverse the first string:
+//    Increment the count for each character.
+//    Traverse the second string:
+//    Decrement the count for each character.
+//    After processing both strings:
+//    Every character count should be 0.
+//    If any count is not 0, they are not anagrams.
+    public static boolean isAnagram(String s1, String s2) {
+        if (s1 == null || s2 == null) {
+            return false;
+        }
+        if (s1.length() != s2.length()) {
+            return false;
+        }
+        Map<Character, Integer> frequency = new HashMap<>();
+        for (char ch : s1.toCharArray()) {
+            frequency.put(ch, frequency.getOrDefault(ch, 0) + 1);
+        }
+
+        for (char ch : s2.toCharArray()) {
+            if (!frequency.containsKey(ch)) {
+                return false;
+            }
+            frequency.put(ch,frequency.get(ch) - 1);
+        }
+        for (Integer value : frequency.values()) {
+            if (value != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
