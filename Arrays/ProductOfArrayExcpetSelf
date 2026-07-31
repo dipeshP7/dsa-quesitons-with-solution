@@ -1,0 +1,45 @@
+public class ProductOfArrayExcpetSelf {
+//    Input:  [1,2,3,4]
+//    Expected Output: [24,12,8,6]
+//    logic ->
+//    other then current index calculate all product
+//    if i - 1 then 2 * 3 * 4  = 24
+//    if i = 2 then 1* 3* 4  = 12
+//    if i = 3 then 1*2*4  = 8
+//    if i = 4 then 1*2*3 = 6
+//    [24,12,8,6]
+
+    public static void main(String[] args){
+      int[] input_arr = {1,2,3,4};
+      List<Integer> output_arr = ProductOfArrayExcpetSelf.solutionOfProductOfArrayExceptSelf(input_arr);
+      System.out.println(output_arr.toString());
+    }
+
+    public static List<Integer> solutionOfProductOfArrayExceptSelf(int[] input_arr){
+        List<Integer> resultList = new ArrayList<>();
+        for(int i = 0; i < input_arr.length; i++){
+            int finalProduct = 1;
+            finalProduct = prefixProduct(input_arr, i) * suffixProduct(input_arr, i);
+           resultList.add(finalProduct);
+        }
+        return  resultList;
+    }
+
+    public static int prefixProduct(int[] input_arr, int index){
+      int prefixProduct  = 1;
+      for(int i = 0; i < index; i++){
+          prefixProduct= prefixProduct * input_arr[i] ;
+      }
+      return prefixProduct;
+    }
+
+    public static int suffixProduct(int[] input_arr, int index){
+        int suffixProduct  = 1;
+        if(index < input_arr.length){
+            for(int i = ++index; i< input_arr.length; i++){
+                suffixProduct= suffixProduct * input_arr[i] ;
+            }
+        }
+        return suffixProduct;
+    }
+}
