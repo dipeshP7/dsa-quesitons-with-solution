@@ -1,0 +1,52 @@
+public class ReverseStringInPlaceCharArray {
+
+    public static void main(String[] args){
+        //input = ['a', 'b', 'c'], ['1', '2', '3', '4'], ['h', 'e', 'l', 'l', 'o']
+        //output =['c', 'b', 'a'], ['4', '3', '2', '1'], ['o', 'l', 'l', 'e', 'h']
+        char[] inputString1 = {'h', 'e', 'l', 'l', 'o'};
+        char[] inputString2 = {'4', '3', '2', '1'};
+        char[] inputString3 = {'a', 'b', 'c'};
+        int loopLength = inputString2.length / 2;
+        System.out.println("length "+ loopLength);
+        ReverseStringInPlaceCharArray.solution_basic_approach(inputString1);
+        ReverseStringInPlaceCharArray.solution_basic_approach(inputString2);
+        ReverseStringInPlaceCharArray.solution_basic_approach(inputString3);
+    }
+
+    public static String solution_basic_approach(char[] charlist){
+        String reverseString = "";
+        int charLength = charlist.length;
+        if(charLength == 0){
+            return "empty string";
+        }
+        //check of odd or even
+        boolean odd = true;
+        if(charLength % 2== 0){
+            odd = false;
+        }
+        //if even
+        //get mid point
+        //replace the char pos to left to right
+        if(!odd){
+            reverseCharacters(charlist, charLength);
+        } else {
+            //now odd case
+            //need to get loopLength that is middle - 1
+            reverseCharacters(charlist, charLength);
+        }
+        System.out.println("reverse String : "+String.valueOf(charlist));
+        return reverseString;
+    }
+
+    private static void reverseCharacters(char[] charlist, int charLength) {
+        int loopLength = charLength / 2;
+        int left = 0, right= charLength -1;
+        for(int i = 0; i < loopLength; i++){
+            char temp = charlist[right];
+            charlist[right]= charlist[left];
+            charlist[left]= temp;
+            left++;
+            right--;
+        }
+    }
+}
