@@ -1,0 +1,114 @@
+public class ReturnFirstOccuranceOfString {
+    //haystack = "sadbutsad"
+    //needle = "sad"
+    //ouput : 0
+    //input haystack = "leetcode"
+    //input needle = "leeto"
+    // output -1
+
+    public static void main(String[] args){
+        String haystack1="sadbutsad", haystack2="leetcode", haystack3="mississippi", haystack4="mississippi";
+        String needle1="sad", needle2="leeto", needle3="issip", needle4="ppid";
+
+       // ReturnFirstOccuranceOfString.solution_basic_approach(haystack1, needle1);
+        //ReturnFirstOccuranceOfString.solution_basic_approach(haystack2, needle2);
+        //ReturnFirstOccuranceOfString.solution_basic_approach(haystack3, needle3);
+        ReturnFirstOccuranceOfString.solution_basic_approach(haystack4, needle4);
+    }
+
+    public static int solution_basic_approach(String hayStack, String needle){
+        int indexOfNeedle =  -1;
+        int needleLength= needle.length();
+        if(needleLength > hayStack.length()){
+            System.out.println("invalid haystack "+ indexOfNeedle);
+            return indexOfNeedle;
+        }
+        //char[] hayStackList = hayStack.toCharArray();
+        for(int i=0; i< hayStack.length(); i++){
+            //check for first char exits
+            if(hayStack.charAt(i) == needle.charAt(0)){
+                int remainingPosLength = hayStack.length() - (i+1);
+                System.out.println("remeaing length : "+ remainingPosLength+ ": needle legnth :"+ (needleLength -1) );
+                if(remainingPosLength >= (needleLength -1)){
+                    int currentIndex = i;
+                    for(int j=1; j< needleLength; j++){
+                        if(hayStack.charAt(currentIndex+j) == needle.charAt(j)){
+                            //if all match then should set
+                            indexOfNeedle = currentIndex;
+                            System.out.println("match char "+ hayStack.charAt(currentIndex+j) + " : "+ needle.charAt(j));
+                        } else {
+                            indexOfNeedle = -1;
+                            break;
+                            //System.out.println("1 needle not exists "+ indexOfNeedle);
+                            //return indexOfNeedle;
+                        }
+                    }
+                    if(indexOfNeedle >= 0){
+                        indexOfNeedle =currentIndex;
+                        System.out.println("needle found "+ indexOfNeedle);
+                        return indexOfNeedle;
+                    }
+
+                }else {
+                    indexOfNeedle = -1;
+                    System.out.println("2 needle not exists "+ indexOfNeedle);
+                    return indexOfNeedle;
+                }
+            } else {
+                //indexOfNeedle = -1;
+                //System.out.println("3 needle not exists "+ indexOfNeedle);
+                //return indexOfNeedle;
+            }
+        }
+
+        return indexOfNeedle;
+    }
+
+
+    public static int strStr(String haystack, String needle) {
+        // Edge case
+        if (needle.isEmpty()) {
+            return 0;
+        }
+        if (needle.length() > haystack.length()) {
+            return -1;
+        }
+        int haystackLength = haystack.length();
+        int needleLength = needle.length();
+        // No need to iterate till the end
+        for (int i = 0; i <= haystackLength - needleLength; i++) {
+            int j = 0;
+            // Compare every character
+            while (j < needleLength &&
+                    haystack.charAt(i + j) == needle.charAt(j)) {
+                j++;
+            }
+            // Entire needle matched
+            if (j == needleLength) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static int strStr2(String haystack, String needle) {
+        if (needle.isEmpty())
+            return 0;
+        if (needle.length() > haystack.length())
+            return -1;
+        int n = haystack.length();
+        int m = needle.length();
+        for (int i = 0; i <= n - m; i++) {
+            boolean found = true;
+            for (int j = 0; j < m; j++) {
+                if (haystack.charAt(i + j) != needle.charAt(j)) {
+                    found = false;
+                    break;
+                }
+            }
+            if (found)
+                return i;
+        }
+        return -1;
+    }
+}
