@@ -1,0 +1,61 @@
+class ListNode{
+    int val;
+    ListNode next;
+
+    ListNode(int val){
+        this.val=val;
+    }
+}
+
+public class RemoveNthNode {
+
+    public static void main(String[] args){
+      //input -> 1 → 2 → 3 → 4 → 5
+      //n = 2
+      //ouput -> 1 → 2 → 3 → 5
+      ListNode head = new ListNode(1);
+      head.next= new ListNode(2);
+      head.next.next=new ListNode(3);
+      head.next.next.next=new ListNode(4);
+      head.next.next.next.next=new ListNode(5);
+
+      ListNode templist=RemoveNthNode.basic_approach(head, 2);
+      while (templist !=null){
+          System.out.print(templist.val+ " -> ");
+          templist=templist.next;
+      }
+    }
+
+    //logic
+    //need to get length of the list nodes
+    // Find which node to remove.
+    // Formula:  Position from beginning = Length - n + 1
+    public static ListNode basic_approach(ListNode head, int n){
+
+      int totalLength=0;
+      ListNode temp= head;
+      while(temp != null){
+          totalLength++;
+          temp=temp.next;
+      }
+
+      // If we need to remove the first node
+      if(n == totalLength){
+          return head.next;
+      }
+      // Step 2: Find node before the one to delete
+      int steps = totalLength-n;
+      //again we set from start so we set head
+      temp=head;
+
+      for(int i=1; i< steps; i++){
+          //here we will get 4 : node 3-> 4 : steps perform till 3
+          temp=temp.next;
+      }
+
+      //here update 3 node next to 5 the node
+       temp.next=temp.next.next;
+
+      return head;
+    }
+}
