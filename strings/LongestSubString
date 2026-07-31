@@ -1,0 +1,49 @@
+import java.util.HashSet;
+import java.util.Set;
+
+public class LongestSubString {
+
+    public static void main(String[] args){
+        String substring= "abcabcbb";
+        System.out.println("longest substring length : "+ LongestSubString.solution_brute_force(substring));
+    }
+
+//    1. Start from each character in the string (i loop).
+//    2. For each starting position, keep extending the substring
+//       one character at a time (j loop).
+//    3. Maintain a set/map of characters already seen in the
+//       current substring.
+//    4. If the current character is not present in the set,
+//       add it and continue expanding.
+//    5. If the current character is already present,
+//       stop because the substring is no longer unique.
+//    6. Calculate the current substring length and update
+//       the maximum length found so far.
+//    7. Repeat the process for every possible starting position.
+//    8. Return the maximum length.
+    public static int solution_brute_force(String substringStr){
+        int maxLength = 0;
+        //int maxSubStrLength = 0;
+        Set<Character> list = new HashSet<>();
+        for(int i = 0; i < substringStr.length(); i++){
+            //int charSubString  = 0;
+            for(int j=i; j < substringStr.length(); j++){
+                char ch = substringStr.charAt(j);
+                if(list.contains(ch)){
+                    break;
+                }
+                list.add(ch);
+                //charSubString++;
+                // Current substring length
+                // Example:
+                // i = 2, j = 5
+                // length = 5 - 2 + 1 = 4
+                int currentLength = j - i + 1;
+                maxLength = Math.max(maxLength, currentLength);
+            }
+            //maxSubStrLength = Math.max(maxSubStrLength, charSubString);
+        }
+       // System.out.println("max substring length "+ maxSubStrLength);
+        return maxLength;
+    }
+}
