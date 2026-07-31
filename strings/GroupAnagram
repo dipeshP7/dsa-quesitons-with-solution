@@ -1,0 +1,41 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class GroupAnagram {
+
+    public static void main(String[] args){
+        //input
+        String[] groupList = {"eat", "tea", "tan", "ate", "nat", "bat"};
+        //output
+//        [
+//         [eat, tea, ate],
+//         [tan, nat],
+//         [bat]
+//        ]
+        GroupAnagram.solution_brute_force(groupList);
+
+    }
+
+    public static List<String> solution_brute_force(String[] groupList){
+        List<String> outputList = new ArrayList<>();
+        Map<String, List<String>> mapList = new HashMap<>();
+        for(String objString : groupList){
+            char[] objCh = objString.toCharArray();
+            Arrays.sort(objCh);
+            System.out.print(String.valueOf(objCh)+" ");
+            if(mapList.containsKey(String.valueOf(objCh))){
+                mapList.get(String.valueOf(objCh)).add(objString);
+                mapList.put(String.valueOf(objCh), mapList.get(String.valueOf(objCh)));
+            }else{
+                List<String> keyValueStrings = new ArrayList<>();
+                keyValueStrings.add(objString);
+                mapList.put(String.valueOf(objCh),keyValueStrings);
+            }
+        }
+        System.out.println("ouputLIst : "+mapList.entrySet());
+        return outputList;
+    }
+}
