@@ -1,0 +1,68 @@
+class ListNode{
+    int val;
+    ListNode next;
+
+    ListNode(int val){
+        this.val=val;
+    }
+}
+public class AddTwoNumbers {
+
+    public static void main(String[] args){
+        //input -> 342    -> reverse order use -> 242
+        //input ->465     -> reverse order use -> 564
+        //ouput -> 807    -> reverse order -> 708
+        ListNode input1=new ListNode(2);
+        input1.next = new ListNode(4);
+        input1.next.next= new ListNode(3);
+
+        ListNode input2=new ListNode(5);
+        input2.next = new ListNode(6);
+        input2.next.next= new ListNode(4);
+
+       ListNode head = AddTwoNumbers.basic_approach(input1, input2);
+       while (head != null){
+           System.out.print(head.val+" -> ");
+           head=head.next;
+       }
+    }
+
+    //logic
+    // Create a result list
+    // set carry = 0
+    // Repeat while List1 exists OR List2 exists OR carry exists
+    // Take value from List1 (if absent, use 0)
+    // Take value from List2 (if absent, use 0)
+    // sum = value1 + value2 + carry
+    // Store sum % 10
+    // Update carry = sum / 10
+    // Move pointers
+    // Repeat
+    // Return result list
+    public static ListNode basic_approach(ListNode input1, ListNode input2){
+        ListNode dummy =new ListNode(0);
+        ListNode current = dummy;
+        int carry=0;
+        while(input1 != null || input2 != null || carry != 0){
+            int val1=0, val2=0;
+            if(input1 != null){
+                val1= input1.val;
+            }
+            if(input2 != null){
+                val2=input2.val;
+            }
+
+            int sum = val1+val2+carry;
+            int store= sum % 10;
+            carry=sum /10;
+
+
+            current.next=new ListNode(store);
+            current=current.next;
+
+            if(input1 != null) input1=input1.next;
+            if(input2 != null) input2=input2.next;
+        }
+        return dummy.next;
+    }
+}
