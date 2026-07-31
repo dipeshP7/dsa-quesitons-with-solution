@@ -1,0 +1,45 @@
+public class ContainedWithMostWater {
+
+    public static void main(String[] args){
+        int[] input_arr = {1,8,6,2,5,4,8,3,7};
+        ContainedWithMostWater.solution_ContainedWithMostWater(input_arr);
+    }
+
+    public int maxArea(int[] height) {
+        int left = 0;
+        int right = height.length - 1;
+        int maxArea = 0;
+        while (left < right) {
+            int width = right - left;
+            int currentArea = width * Math.min(height[left], height[right]);
+            maxArea = Math.max(maxArea, currentArea);
+            if (height[left] < height[right]) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+
+        return maxArea;
+    }
+
+    public static void solution_ContainedWithMostWater(int[] input_arr) {
+
+        int first = 0;
+        int last = input_arr.length - 1;
+        int maxArea = 0;
+        while (first < last) {
+            int height = Math.min(input_arr[first], input_arr[last]);
+            int width = last - first;
+            int area = height * width;
+            maxArea = Math.max(maxArea, area);
+            if (input_arr[first] < input_arr[last]) {
+                first++;
+            } else {
+                last--;
+            }
+        }
+        System.out.println("Maximum Area : " + maxArea);
+    }
+
+}
