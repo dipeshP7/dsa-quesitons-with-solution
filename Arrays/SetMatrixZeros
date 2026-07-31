@@ -1,0 +1,116 @@
+public class SetMatrixZeros {
+//    You are given a matrix (rows × columns).
+//    Rule:
+//    If any cell contains 0,
+//    then its entire row and entire column must become 0.
+//    input
+//        | 2 4 5 |
+//        | 6 0 7 |
+//        | 1 9 0 |
+//    output
+//        | 2 0 0 |
+//        | 0 0 0 |
+//        | 0 0 0 |
+
+
+
+
+    public static void main(String[] args){
+      int[][] input_arr = {{2,4,5},{6,0,7},{1,9,0}};
+      SetMatrixZeros.solutionSetMatrixZeros(input_arr);
+    }
+
+    //logic
+    //first find the location of 0 and then mark row and column.
+    public static void solutionSetMatrixZeros(int[][] input_arr){
+       int zeroValue = -1;
+        Map<Integer,Integer> rowsList = new HashMap<>();
+        Map<Integer,Integer> columnList = new HashMap<>();
+        for(int i = 0; i < input_arr.length; i++){
+            int[] arr = input_arr[i];
+            for (int j = 0; j < arr.length; j++){
+                //check if any 0 in row and save the index
+                if(arr[j] == 0){
+                    zeroValue = zeroValue +1;
+                    rowsList.put(zeroValue, i);
+                    columnList.put(zeroValue,j);
+                    //System.out.println("row : "+ i+" : column : "+ j);
+                }
+            }
+        }
+       // System.out.println(rowsList.entrySet());
+        //System.out.println(columnList.entrySet());
+
+       for(int i = 0; i < rowsList.size(); i++){
+          int rowvalue = rowsList.get(i);
+          //System.out.println("row value "+rowvalue);
+          for(int k=0; k < input_arr.length; k++){
+              if(rowvalue == k){
+                  int [] arr2 = input_arr[k];
+                  for(int j=0; j < arr2.length; j++){
+                      input_arr[k][j] = 0;
+                     // System.out.println("row value set to "+ input_arr[k][j]);
+                  }
+              }
+          }
+       }
+
+       for(int cIndex = 0; cIndex < columnList.size(); cIndex++){
+           int columnListValue = columnList.get(cIndex);
+           for(int k=0; k < input_arr.length; k++){
+               int [] arr2 = input_arr[k];
+               for(int j=0; j < arr2.length; j++){
+                   if(arr2[j] != 0){
+                       if(columnListValue == j)
+                           input_arr[k][j] = 0;
+                       //System.out.println("col value set to "+ input_arr[k][j]);
+                   }
+
+               }
+           }
+       }
+        printOutputArray(input_arr);
+
+    }
+
+    public static void printOutputArray(int[][] ouput_arr){
+        for(int i = 0; i < ouput_arr.length; i++) {
+            int[] arr = ouput_arr[i];
+            for (int j = 0; j < arr.length; j++) {
+                System.out.print(arr[j]+" ");
+            }
+            System.out.println("\n");
+         }
+    }
+
+
+    public static void setZeroes(int[][] matrix) {
+        Set<Integer> rows = new HashSet<>();
+        Set<Integer> cols = new HashSet<>();
+        // Step 1: Find all zero positions
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                if (matrix[i][j] == 0) {
+                    rows.add(i);
+                    cols.add(j);
+                }
+            }
+        }
+
+        // Step 2: Set rows to zero
+        for (int row : rows) {
+            for (int j = 0; j < matrix[row].length; j++) {
+                matrix[row][j] = 0;
+            }
+        }
+
+        // Step 3: Set columns to zero
+        for (int col : cols) {
+            for (int i = 0; i < matrix.length; i++) {
+                matrix[i][col] = 0;
+            }
+        }
+    }
+
+
+}
