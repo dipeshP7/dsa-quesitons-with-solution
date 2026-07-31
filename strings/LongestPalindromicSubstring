@@ -1,0 +1,103 @@
+public class LongestPalindromicSubstring {
+
+    public static void main(String[] args){
+     //input String = "babad"
+     //ouput  3.  note : [bab, aba]
+     String inputString = "babad", inputString2= "bbbb", inputString3="b";
+
+     LongestPalindromicSubstring.solution_LongesthSubstring(inputString);
+     LongestPalindromicSubstring.solution_LongesthSubstring(inputString2);
+     LongestPalindromicSubstring.solution_LongesthSubstring(inputString3);
+
+    // LongestPalindromicSubstring.longestPalindromeBruteForce(inputString);
+    }
+
+    //logic
+    //start at i and check for i++ and i value
+    //if match then get that substring and check for palindrome
+
+    //move to next i
+    //follow the same process
+    public static String solution_LongesthSubstring(String inputString){
+        int maxLength = 0;
+        if(inputString == null
+                || inputString.trim().isEmpty()){
+            throw new RuntimeException("invalid input string");
+        }
+
+        char[] inputStr_array = inputString.toCharArray();
+        if (inputString.length() == 1) {
+            System.out.println("Longest Palindrome : " + inputString);
+            System.out.println("Max Length : 1");
+            return "";
+        }
+        String longestPalindrome = inputString.substring(0, 1);
+        for(int i = 0; i < inputStr_array.length; i++){
+            char str = inputString.charAt(i);
+            for(int j=i+1; j < inputStr_array.length; j++){
+                char str2 = inputString.charAt(j);
+                if(str == str2){
+                    //chars match
+                    //substring it and then check for palindrome length
+                    String substringStr = inputString.substring(i,j+1);
+                        if(ifPalindrome(substringStr)){
+                           if(substringStr.length() > maxLength){
+                               maxLength = substringStr.length();
+                               longestPalindrome = substringStr;
+                           }
+                        }
+                       // System.out.println("palindrome substring :"+substringStr);
+                }
+            }
+        }
+        System.out.println("Max length "+ maxLength);
+        return longestPalindrome;
+    }
+
+    public static boolean ifPalindrome(String str){
+        int left = 0;
+        int right = str.length() - 1;
+        while (left < right) {
+            if (str.charAt(left) != str.charAt(right)) {
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
+
+    public static String longestPalindromeBruteForce(String str) {
+        if (str == null || str.isBlank()) {
+            throw new IllegalArgumentException("Invalid input");
+        }
+        int maxLength = 1;
+        String answer = str.substring(0, 1);
+        for(int start = 0; start < str.length(); start++){
+            for(int end = start; end < str.length(); end++){
+              if(checkPalindrome(str,start,end)){
+                  int length = end - start+1;
+                  if(length > maxLength){
+                      maxLength = length;
+                      answer = str.substring(start, end+1);
+                  }
+              }
+            }
+        }
+        System.out.println("length "+ maxLength);
+        System.out.println("substring "+ answer);
+        return answer;
+    }
+
+
+    public static boolean checkPalindrome(String str, int left, int right){
+       while (left < right){
+           if(str.charAt(left) != str.charAt(right)){
+               return false;
+           }
+           left++;
+           right--;
+       }
+       return true;
+    }
+}
