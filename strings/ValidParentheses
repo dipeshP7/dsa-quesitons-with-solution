@@ -1,0 +1,174 @@
+import java.util.Stack;
+
+public class ValidParentheses {
+    public static String STR_OPEN_ROUND_BRACKET = "(";
+    public static String STR_CLOSE_ROUND_BRACKET = ")";
+    public static String STR_OPEN_CURLY_BRACKET = "{";
+    public static String STR_CLOSE_CURLY_BRACKET = "}";
+    public static String STR_OPEN_BRACKET = "[";
+    public static String STR_CLOSE_BRACKET = "]";
+    public static String[] Close_bracket_list = {"]",")","}"};
+
+    public static void main(String[] args){
+        //input ((()))
+        //output valid
+        //input ([)]
+        // output invalid
+
+        String inputString = "((()))", inputString2="([)]", inputString3="()[]{}",inputString4 ="(()())", inputString5="(()(()))", inputString6="()()";
+        String inputString7 = "((())())", inputString8="({}[])", inputString9="(()((())()))";
+
+        //ValidParentheses.solution_basic(inputString);
+        //ValidParentheses.solution_basic(inputString2);
+        //ValidParentheses.solution_basic(inputString3);
+        //ValidParentheses.solution_basic(inputString4);
+        //ValidParentheses.solution_basic(inputString7);
+        //ValidParentheses.solution_basic(inputString8);
+        //ValidParentheses.solution_basic(inputString9);
+       if(ValidParentheses.solution_brute_force(inputString9)){
+           System.out.println("valid string");
+       }else{
+           System.out.println("invalid string");
+       }
+
+        if(ValidParentheses.solution_stack_approch(inputString8)){
+            System.out.println("valid string");
+        }else{
+            System.out.println("invalid string");
+        }
+    }
+
+    //logic
+    // check first char is closed bracket -> yes - invalid string
+    // check check is open bracket
+    // if yes then get there closed bracket and then campare postion
+    // either just one index lator or start index pos to end index pos
+    // like if at 2 then it match with 4 (assume legnth 6)
+    // no condition req for closed brakcet
+    // if all loop complete at the end valid
+    // put invalid condtion if closed bracket condtion not match
+    public static void solution_basic(String inputString){
+       int start_length = 0;
+       int end_length=inputString.length();
+       System.out.println("end_length : "+ end_length);
+       for(int i = 0; i< inputString.length(); i++){
+           int currentPos = i;
+           char strValue = inputString.charAt(i);
+           if(i ==0 &&
+                   (String.valueOf(strValue).equals(STR_CLOSE_ROUND_BRACKET)
+                    || String.valueOf(strValue).equals(STR_CLOSE_CURLY_BRACKET)
+                    || String.valueOf(strValue).equals(STR_CLOSE_BRACKET))){
+               System.out.println("invalid string");
+           }
+
+           boolean openBracket = isOpenBracket(String.valueOf(strValue));
+           boolean closeBracket = isCloseBracket(String.valueOf(strValue));
+
+           if(openBracket){
+               String closedBracketOfStr = getCloseBracket(String.valueOf(strValue));
+               int closedPos = end_length - (currentPos - start_length);
+               if( (inputString.charAt(currentPos+1) == closedBracketOfStr.charAt(0))
+                     || (inputString.charAt(closedPos-1) == closedBracketOfStr.charAt(0))){
+                   //this check till all elements are match
+               } else {
+                   System.out.println("invalid string");
+                   return;
+               }
+           }
+
+       }
+       System.out.println("valid");
+    }
+
+    public static String getCloseBracket(String bracket){
+        if(STR_OPEN_ROUND_BRACKET.equals(bracket)){
+            return STR_CLOSE_ROUND_BRACKET;
+        }
+        if(STR_OPEN_CURLY_BRACKET.equals(bracket)){
+            return STR_CLOSE_CURLY_BRACKET;
+        }
+        if(STR_OPEN_BRACKET.equals(bracket)){
+            return STR_CLOSE_BRACKET;
+        }
+        return "";
+    }
+
+    public static boolean isCloseBracket(String bracket){
+        if(STR_CLOSE_ROUND_BRACKET.equals(bracket)){
+            return true;
+        }
+        if(STR_CLOSE_CURLY_BRACKET.equals(bracket)){
+            return true;
+        }
+        if(STR_CLOSE_BRACKET.equals(bracket)){
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isOpenBracket(String bracket){
+        if(STR_OPEN_ROUND_BRACKET.equals(bracket)){
+            return true;
+        }
+        if(STR_OPEN_CURLY_BRACKET.equals(bracket)){
+            return true;
+        }
+        if(STR_OPEN_BRACKET.equals(bracket)){
+            return true;
+        }
+        return false;
+    }
+
+    //logic
+    //use pair removed
+    // check if has pair like current index with next index
+    //then remove this pair
+    //then start again with same string
+    //every time match pair remove
+    // at last string will be empty or blank - > valid
+    //otherwise invalid
+    public static boolean solution_brute_force(String inputString){
+        StringBuilder sb = new StringBuilder(inputString);
+        boolean pairMatched = true;
+        while(pairMatched){
+            pairMatched = false;
+            for(int i =0; i < sb.length() -1; i++){
+                char first = sb.charAt(i);
+                char second = sb.charAt(i+1);
+                if((first == '(' && second == ')')
+                    || (first == '[' && second == ']')
+                    || (first == '{' && second == '}') ){
+                    // here second +1 is used because string builder
+                    // delele method accept start index -inclusive
+                    // end index - exclusive
+                    // means end index spaciy will exlude while delete
+                    sb.delete(i,i+2);
+                    pairMatched = true;
+                    break;
+                }
+            }
+        }
+        return sb.length() == 0;
+    }
+
+    public static boolean solution_stack_approch(String inputString){
+        Stack<Character> stack = new Stack<>();
+        for(char ch :  inputString.toCharArray()){
+            if (ch == '(' || ch == '[' || ch == '{') {
+              stack.push(ch);
+            } else {
+                if (stack.isEmpty()) {
+                    return false;
+                }
+
+                char top = stack.pop();
+                if ((ch == ')' && top != '(') ||
+                        (ch == ']' && top != '[') ||
+                        (ch == '}' && top != '{')) {
+                    return false;
+                }
+            }
+        }
+        return  stack.isEmpty();
+    }
+}
