@@ -1,0 +1,64 @@
+public class Rotatematrix {
+    //input_arr
+//    1 2 3
+//    4 5 6
+//    7 8 9
+//
+//    output_arr
+//    7 4 1
+//    8 5 2
+//    9 6 3
+
+    public static void main(String[] args){
+      int[][] input_arr = {{1,2,3},{4,5,6},{7,8,9}};
+      Rotatematrix.brute_force_solution(input_arr);
+    }
+
+    public static void printOutput(int[][] output_arr){
+        for(int i=0; i < output_arr.length; i++){
+            for(int j=0; j < output_arr[i].length; j++){
+                System.out.print(output_arr[i][j]+" ");
+            }
+            System.out.println("");
+        }
+    }
+
+    public static void brute_force_solution(int[][] input_arr){
+        int[][] output_arr = new int[input_arr.length][input_arr.length];
+        for(int i=0; i < input_arr.length; i++){
+            for(int j=0; j < input_arr[i].length; j++){
+                //System.out.println("input_arr value "+ input_arr[i][j]);
+                //System.out.println("output index arr["+j+"]["+(input_arr.length-1-i)+"]");
+                output_arr[j][input_arr.length-1-i]=input_arr[i][j];
+            }
+        }
+        //printOutput(output_arr);
+    }
+
+    public static void rotate(int[][] matrix) {
+        int n = matrix.length;
+
+        // Step 1: Transpose matrix
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+
+                int temp = matrix[i][j];  //2
+                matrix[i][j] = matrix[j][i];  // 0,1 =4
+                matrix[j][i] = temp; //  (1,0)=2
+            }
+        }
+
+        // Step 2: Reverse each row
+        for (int i = 0; i < n; i++) {
+            int left = 0;
+            int right = n - 1;
+            while (left < right) {
+                int temp = matrix[i][left];
+                matrix[i][left] = matrix[i][right];
+                matrix[i][right] = temp;
+                left++;
+                right--;
+            }
+        }
+    }
+}
