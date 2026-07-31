@@ -1,0 +1,90 @@
+public class FindMissingNumber {
+
+    public static void main(String[] args){
+        //find missing number from array
+        // here output should be 4
+        // array value is always num sequence (i +1)
+        int[] input_arr = {1,2,3,5};
+        int[] input_arr2 = {11,12,13,14};
+        //FindMissingNumber.brute_force_logic_1(input_arr, 5);
+        FindMissingNumber.brute_force_logic_1(input_arr2, 5);
+
+    }
+
+
+    //need to add case for last element and first element to be in seqence
+    // also here array length is imp like if 1-n && and n=5
+    // if array contain the numbers are 4 then one is missing.
+    public static void brute_force_logic_1(int[] input_arr, int n){
+        Arrays.sort(input_arr);
+        int inddex = 0;
+        int seqSum= 0;
+        for(int i=0; i < n; i++){
+            inddex = i + 1;
+            if(inddex >= input_arr.length){
+                // if missing num is at the end
+                System.out.println("missing num : "+ (seqSum+1));
+                return;
+            } else {
+                seqSum = input_arr[i] +1;
+                System.out.println("i "+ i + " arr value "+input_arr[inddex]+ " seqSum : "+ seqSum);
+                if( input_arr[inddex] != seqSum){
+                    System.out.println("Missing number is :"+ seqSum );
+                    return;
+                }
+            }
+        }
+    }
+
+
+    public static int sortingApproach(int[] arr, int n) {
+        Arrays.sort(arr);
+        // Missing first number
+        if (arr[0] != 1) {
+            return 1;
+        }
+        for (int i = 0; i < arr.length - 1; i++) {
+            if (arr[i] + 1 != arr[i + 1]) {
+                return arr[i] + 1;
+            }
+        }
+        // Missing last number
+        return n;
+    }
+
+    public static int hashingApproach(int[] arr, int n) {
+        boolean[] visited = new boolean[n + 1];
+        for (int value : arr) {
+            visited[value] = true;
+        }
+        for (int i = 1; i <= n; i++) {
+            if (!visited[i]) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static int sumApproach(int[] arr, int n) {
+        int expectedSum = n * (n + 1) / 2;
+        int actualSum = 0;
+        for (int value : arr) {
+            actualSum += value;
+        }
+        return expectedSum - actualSum;
+    }
+
+    public static int xorApproach(int[] arr, int n) {
+        int xor1 = 0;
+        int xor2 = 0;
+        // XOR from 1 to n
+        for (int i = 1; i <= n; i++) {
+            xor1 ^= i;
+        }
+        // XOR array values
+        for (int value : arr) {
+            xor2 ^= value;
+        }
+        return xor1 ^ xor2;
+    }
+}
